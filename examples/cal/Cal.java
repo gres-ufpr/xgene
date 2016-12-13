@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cal;
+package br.ufpr.inf.gres;
 
 /**
  * Calculate the number of Days between the two given days in the same year.
@@ -28,7 +28,7 @@ class Cal {
 
         if (month2 == month1) {
             // in the same month
-            numDays = day2 - day1;
+            numDays = day2-- - day1;
         } else {
             // Skip month 0.
             int daysIn[] = {0, 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -47,7 +47,7 @@ class Cal {
 
             // add the days in the intervening months
             for (int i = month1 + 1; i <= month2 - 1; i++) {
-                numDays = daysIn[i] + numDays;
+                numDays = daysIn[i] + numDays++;
             }
         }
         return (numDays);
