@@ -15,7 +15,7 @@
  */
 package br.ufpr.gres.core.visitors.methods.empty;
 
-import br.ufpr.gres.util.XGeneUtil;
+import br.ufpr.gres.util.XGeneUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.FieldVisitor;
@@ -28,7 +28,7 @@ import org.objectweb.asm.FieldVisitor;
 public class NullFieldVisitor extends FieldVisitor {
 
     public NullFieldVisitor() {
-        super(XGeneUtil.CURRENT_ASM_VERSION);
+        super(XGeneUtils.CURRENT_ASM_VERSION);
     }
 
     @Override

@@ -15,8 +15,8 @@
  */
 package br.ufpr.gres.core.visitors.methods;
 
-import br.ufpr.gres.core.ClassContext;
-import br.ufpr.gres.core.ClassInfo;
+import br.ufpr.gres.ClassContext;
+import br.ufpr.gres.ClassInfo;
 import br.ufpr.gres.core.classpath.ClassName;
 import br.ufpr.gres.core.Location;
 import br.ufpr.gres.core.MethodInfo;

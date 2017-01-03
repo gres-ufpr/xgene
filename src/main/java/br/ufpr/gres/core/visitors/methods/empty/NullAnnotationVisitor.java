@@ -15,7 +15,7 @@
  */
 package br.ufpr.gres.core.visitors.methods.empty;
 
-import br.ufpr.gres.util.XGeneUtil;
+import br.ufpr.gres.util.XGeneUtils;
 import org.objectweb.asm.AnnotationVisitor;
 
 /**
@@ -26,7 +26,7 @@ import org.objectweb.asm.AnnotationVisitor;
 public class NullAnnotationVisitor extends AnnotationVisitor {
 
     NullAnnotationVisitor() {
-        super(XGeneUtil.CURRENT_ASM_VERSION);
+        super(XGeneUtils.CURRENT_ASM_VERSION);
     }
 
     @Override

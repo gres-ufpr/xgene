@@ -15,7 +15,7 @@
  */
 package br.ufpr.gres.core.visitors.methods;
 
-import br.ufpr.gres.util.XGeneUtil;
+import br.ufpr.gres.util.XGeneUtils;
 import org.objectweb.asm.ClassVisitor;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
@@ -27,7 +27,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 public class MutatingClassAdapter extends ClassVisitor {
 
     public MutatingClassAdapter(ClassVisitor cv) {
-        super(XGeneUtil.CURRENT_ASM_VERSION, cv);
+        super(XGeneUtils.CURRENT_ASM_VERSION, cv);
     }
 
     /**

@@ -16,7 +16,7 @@
 
 package br.ufpr.gres.core.visitors.methods;
 
-import br.ufpr.gres.util.XGeneUtil;
+import br.ufpr.gres.util.XGeneUtils;
 import org.objectweb.asm.MethodVisitor;
 
 /**
@@ -27,6 +27,6 @@ import org.objectweb.asm.MethodVisitor;
 public class MutatingMethodAdapter extends MethodVisitor {
 
     public MutatingMethodAdapter(MethodVisitor mv) {
-        super(XGeneUtil.CURRENT_ASM_VERSION, mv);
+        super(XGeneUtils.CURRENT_ASM_VERSION, mv);
     }
 }
