@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.ufpr.gres.core.classpath;
 
+import br.ufpr.gres.ClassContext;
+import br.ufpr.gres.core.visitors.methods.MutatingClassVisitor;
+import br.ufpr.gres.core.visitors.methods.RegisterInformationsClassVisitor;
+import br.ufpr.gres.core.visitors.methods.empty.NullVisitor;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.objectweb.asm.ClassReader;
 
 /**
  *
@@ -41,27 +46,34 @@ public class Resources {
         this(new File(root));
     }
 
-    public List<ClassInfo> getJavaFiles() throws IOException {
+    public List<ClassDetails> getJavaFiles() throws IOException, ClassNotFoundException {
         return getClasses(this.root, ".java");
     }
 
-    public List<ClassInfo> getClasses() throws IOException {
+    public List<ClassDetails> getClasses() throws IOException, ClassNotFoundException {
         return getClasses(this.root, ".class");
     }
 
-    private List<ClassInfo> getClasses(final File file, String filter) throws IOException {
-        final List<ClassInfo> classNames = new LinkedList<>();
+    private List<ClassDetails> getClasses(final File file, String filter) throws IOException, ClassNotFoundException {
+        final List<ClassDetails> classNames = new LinkedList<>();
 
         if (file.exists()) {
             for (final File f : file.listFiles()) {
                 if (f.isDirectory()) {
                     classNames.addAll(getClasses(f, filter));
                 } else if (f.getName().endsWith(filter)) {
-                    classNames.add(new ClassInfo(f, this.root));
+                    final ClassContext context = new ClassContext();
+                    final ClassReader first = new ClassReader(FileUtils.readFileToByteArray(f));
+                    final NullVisitor nv = new NullVisitor();
+                    final RegisterInformationsClassVisitor mca = new RegisterInformationsClassVisitor(context, nv);
+
+                    first.accept(mca, ClassReader.EXPAND_FRAMES);
+
+                    classNames.add(new ClassDetails(context.getClassInfo(), f, this.root));
                 }
-            }           
+            }
         }
-        
+
         return classNames;
     }
 }
