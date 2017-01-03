@@ -15,6 +15,7 @@
  */
 package br.ufpr.gres.core;
 
+import br.ufpr.gres.ClassInfo;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 

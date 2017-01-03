@@ -15,6 +15,8 @@
  */
 package br.ufpr.gres.core;
 
+import br.ufpr.gres.ClassInfo;
+import br.ufpr.gres.ClassContext;
 import br.ufpr.gres.core.operators.IMutationOperator;
 import java.util.HashSet;
 import java.util.Set;

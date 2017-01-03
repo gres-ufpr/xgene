@@ -15,6 +15,9 @@
  */
 package br.ufpr.gres.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A fully generated mutant
  *
@@ -23,10 +26,16 @@ package br.ufpr.gres.core;
  */
 public final class Mutant {
 
-    private final MutationDetails details;
+    private final List<MutationDetails> details;
     private final byte[] bytes;
 
     public Mutant(final MutationDetails details, final byte[] bytes) {
+        this.details = new ArrayList<>();
+        this.details.add(details);
+        this.bytes = bytes;
+    }
+
+    public Mutant(final List<MutationDetails> details, final byte[] bytes) {
         this.details = details;
         this.bytes = bytes;
     }
@@ -36,7 +45,7 @@ public final class Mutant {
      *
      * @return A MutationDetails object
      */
-    public MutationDetails getDetails() {
+    public List<MutationDetails> getDetails() {
         return this.details;
     }
 
@@ -47,5 +56,24 @@ public final class Mutant {
      */
     public byte[] getBytes() {
         return this.bytes;
+    }
+    
+    /**
+     * Return the mutant order (number of mutations present in the mutant)
+     * @return Mutant order
+     */
+    public int getOrder(){
+        return this.details.size();
+    }
+    
+    @Override
+    public String toString() {
+        String description = "";
+
+        for (int i = 0; i < details.size(); i++) {
+            description += i + 1 + ") " + details.get(i).toString() + "\n";
+        }
+
+        return description;
     }
 }

@@ -16,7 +16,7 @@
 package br.ufpr.gres.core;
 
 import br.ufpr.gres.core.classpath.ClassName;
-import br.ufpr.gres.util.StringUtil;
+import br.ufpr.gres.util.StringUtils;
 
 /**
  * Captures all data relating to a mutant.
@@ -75,7 +75,7 @@ public final class MutationDetails {
     @Deprecated
     public String getHtmlSafeDescription() {
         // fixme this should not be here used in string template
-        return StringUtil.escapeBasicHtmlChars(this.description);
+        return StringUtils.escapeBasicHtmlChars(this.description);
     }
 
     /**
