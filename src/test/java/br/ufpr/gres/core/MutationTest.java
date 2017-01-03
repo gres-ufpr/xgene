@@ -15,6 +15,8 @@
  */
 package br.ufpr.gres.core;
 
+import br.ufpr.gres.ClassContext;
+import br.ufpr.gres.core.classpath.ClassDetails;
 import br.ufpr.gres.core.classpath.Resources;
 import br.ufpr.gres.core.operators.IMutationOperator;
 import br.ufpr.gres.core.operators.method_level.AOR;
@@ -31,8 +33,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
@@ -75,7 +75,7 @@ public class MutationTest {
         return new Mutant(details.stream().filter(p -> p.getId().equals(id)).findFirst().get(), w.toByteArray());
     }
 
-    public HigherOrderMutant getMutation(final ArrayList<MutationIdentifier> ids, byte[] classToMutate) {
+    public Mutant getHigherOrderMutant(final ArrayList<MutationIdentifier> ids, byte[] classToMutate) {
         Collection<IMutationOperator> mutators = MUTATORS.stream().collect(Collectors.toList());
         //Collection<IMutationOperator> mutatorsFiltered = mutators.stream().filter(p ->.getMutator().equals(p.getName())).collect(Collectors.toList());
 
@@ -101,7 +101,7 @@ public class MutationTest {
             }
         }
 
-        return new HigherOrderMutant(details, w.toByteArray());
+        return new Mutant(details, w.toByteArray());
     }
 
     private PremutationClassInfo performPreScan(final byte[] classToMutate) {
@@ -114,8 +114,8 @@ public class MutationTest {
 
     @Test
     public void mutation() throws Exception {
-        String directory = Paths.get(System.getProperty("user.dir")) + File.separator + "examples" + File.separator + "cal";
-        br.ufpr.gres.core.classpath.ClassInfo classes = new Resources(directory).getClasses().get(0);
+        String directory = Paths.get(System.getProperty("user.dir")) + File.separator + "examples" + File.separator + "bub";
+        ClassDetails classes = new Resources(directory).getClasses().get(0);        
 
         final byte[] classToMutate = classes.getBytes();
 
@@ -146,10 +146,10 @@ public class MutationTest {
             for (IMutationOperator operator : mutators) {
                 int i = 0;
                 for (MutationDetails detail : details.stream().filter(p -> p.getMutator().equals(operator.getName())).collect(Collectors.toList())) {
-                    Mutant mutant = getMutation(detail.getId(), classToMutate);
+                    Mutant mutant = getMutation(detail.getId(), classToMutate);                    
                     i++;
                     System.out.println(mutant.getDetails().toString());
-                    try (DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(directory + File.separator + "mutants", mutant.getDetails().getMutator() + "_" + i + ".class")))) {
+                    try (DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(directory + File.separator + "mutants", mutant.getDetails().get(0).getMutator() + "_" + i + ".class")))) {
                         dout.write(mutant.getBytes());
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -158,11 +158,11 @@ public class MutationTest {
             }
 
         }
-
+                
         ArrayList<MutationIdentifier> details = new ArrayList(context.getCollectedMutations().subList(0, 5).stream().map(m -> m.getId()).collect(Collectors.toList()));
         System.out.println("Creating a mutant with order " + details.size());
 
-        HigherOrderMutant mutant = getMutation(details, classToMutate);
+        Mutant mutant = getHigherOrderMutant(details, classToMutate);
         System.out.println("The new mutant");
         System.out.println(mutant.toString());
 
